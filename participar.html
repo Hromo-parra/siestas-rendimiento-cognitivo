@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Consentimiento y participación en el piloto de una siesta de 25 minutos del equipo 8.">
+  <title>Consentimiento y participación · Equipo 8</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    a{color:var(--deep)}.button{display:inline-block;text-align:center;text-decoration:none}.button:disabled{opacity:.5;cursor:not-allowed}
+    .topbar{height:auto;min-height:72px;gap:12px;flex-wrap:wrap}.panel-page{padding-top:24px}.consent{margin-block:12px}
+    .consent input{flex:0 0 20px;height:20px}.study-title{font-weight:700}.muted{color:var(--muted);font-size:.9rem}
+    .study-nav{display:flex;gap:8px;flex-wrap:wrap}.stage-label{font-size:.85rem;font-weight:700}.task-stage{min-height:460px;padding:12px}
+    .timer{font-size:3rem;font-variant-numeric:tabular-nums}.error:empty{display:none}.demo-banner{padding:12px 24px;background:#f3e4bb;text-align:center}
+    #withdraw{color:#8b342d}.pending{border-left-color:#c58a2a;background:#faf0d9}select{min-width:0}.table-wrap{max-width:100%}
+    [hidden]{display:none!important}.actions-wrap{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    @media(max-width:500px){.topbar{padding:16px}.panel-page{padding-inline:12px}.form-card{padding:24px 18px}.brand{font-size:.9rem}.button{padding:12px 16px}.stimulus{width:min(100%,300px)}.study-nav{width:100%}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="estudio.html"><span class="brand-mark" aria-hidden="true">08</span>Siesta y desempeño</a>
+    <nav class="study-nav" aria-label="Opciones del estudio">
+      <button class="text-button" id="resume" data-action="resume" type="button">Retomar sesión</button>
+      <button class="text-button" id="teacher" data-action="teacher" type="button">Modo docente</button>
+      <button class="text-button" id="withdraw" data-action="withdraw" type="button" hidden>Retirarme</button>
+    </nav>
+  </header>
+  <div id="demo-banner" class="demo-banner" hidden>Demostración con datos ficticios y tiempos abreviados. No se guarda ni se exporta como investigación.</div>
+  <p id="global-error" class="error" role="alert"></p>
+  <main id="participant-app" class="panel-page" tabindex="-1">
+    <section class="form-card" id="consentimiento">
+      <p class="eyebrow">Equipo 8 · Versión piloto</p>
+      <h1>Consentimiento informado</h1>
+      <p class="study-title">Actitudes, expectativas y siesta: relación con la percepción de descanso, la culpa y el rendimiento cognitivo en estudiantes universitarios.</p>
+      <div class="callout pending"><strong>Documento para revisión del equipo</strong><p>Este texto se preparó con la información disponible. El contacto, los instrumentos definitivos, el plazo de conservación y la revisión ética están pendientes de confirmación. La aplicación permite probar el procedimiento; esta versión no acredita una aprobación institucional.</p></div>
+      <h2>Propósito</h2>
+      <p>Explorar cómo las actitudes y expectativas sobre las siestas se relacionan con la culpa posterior, el descanso percibido y el cambio en tareas de atención y memoria. No se garantiza un beneficio personal ni una mejora del rendimiento.</p>
+      <h2>¿Qué implica participar?</h2>
+      <ol>
+        <li>Responder preguntas y realizar tareas de atención y memoria antes de la siesta.</li>
+        <li>Disponer de 25 minutos para una siesta en casa, en el horario acordado, con una alarma propia.</li>
+        <li>Indicar si dormiste, los minutos y las interrupciones; responder preguntas y repetir las tareas.</li>
+      </ol>
+      <p>La duración prevista del estudio es de aproximadamente 1 hora y 15 minutos (unos 20 minutos antes, 25 de siesta y 20 después; distribución total pendiente de ajustar). Las tareas abreviadas de este piloto pueden tomar menos tiempo.</p>
+      <p>No es necesario lograr dormir. Si no duermes, registra esa experiencia y continúa con la fase posterior.</p>
+      <h2>Requisitos</h2>
+      <p>Tener al menos 18 años, estudiar un grado o posgrado y tener disponibilidad para la siesta en casa. Se excluye a quienes tengan un diagnóstico de trastorno del sueño o uso habitual de sustancias que afecten el sueño. Se registra por separado la cafeína de la hora previa; su aplicación específica al criterio de exclusión está pendiente de confirmación. Si tienes dudas sobre tu elegibilidad, el equipo debe aclararlas antes de la sesión.</p>
+      <h2>Preguntas e instrumentos</h2>
+      <p>Esta versión usa preguntas exploratorias sobre actitudes, expectativas, somnolencia, descanso, culpa y autoevaluación. No son versiones validadas de CATS, CESQT, SVS o Stanford Sleepiness Scale. Los instrumentos definitivos deben confirmarse antes de usarse en el estudio formal.</p>
+      <h2>Posibles molestias y riesgos mínimos</h2>
+      <p>Puedes sentir cansancio al realizar las tareas, incomodidad con alguna pregunta o somnolencia y aturdimiento al despertar. Puedes omitir las preguntas subjetivas o retirarte. Si te sientes mal, interrumpe la actividad; no realices actividades que requieran alerta mientras persista la somnolencia. La evaluación definitiva de riesgos corresponde a la revisión del protocolo.</p>
+      <p class="muted">La somnolencia al despertar puede variar según el contexto de la siesta. <a href="https://pubmed.ncbi.nlm.nih.gov/26715234/" target="_blank" rel="noopener noreferrer">Referencia sobre inercia del sueño</a> (estudio de siestas nocturnas; no estima el riesgo individual de este protocolo).</p>
+      <h2>Privacidad y almacenamiento</h2>
+      <p>Se genera un código aleatorio; no se solicitan nombre, matrícula ni correo. Se guardan edad, nivel de estudios, aceptación de esta versión del texto, respuestas, tiempos y resultados de las tareas en este navegador. Las respuestas no se envían a GitHub ni a un servidor de investigación. El alojamiento puede registrar datos técnicos de las visitas conforme a sus propias políticas.</p>
+      <p>Quien tenga acceso a este navegador puede consultar o exportar los registros desde el modo docente. Cerrar la página no borra los datos. El equipo puede descargar los registros para investigación; el plazo y las condiciones de custodia de esas copias están pendientes. Evita usar un dispositivo compartido para datos reales.</p>
+      <h2>Voluntariedad y retiro</h2>
+      <p>Participar es voluntario. Rechazar o retirarte no tiene consecuencias. El botón “Retirarme” detiene la sesión y permite confirmar el retiro. Los datos ya guardados permanecen marcados como sesión retirada; no se borran automáticamente. El tratamiento de datos retirados debe definirse en el protocolo definitivo.</p>
+      <p><strong>Contacto del equipo de investigación: [por definir].</strong></p>
+      <p class="muted">Versión del texto: 2026-09-02-piloto-1.</p>
+      <form id="consent-form">
+        <label class="consent"><input name="read" type="checkbox" required><span>He leído la información y entiendo qué actividades incluye esta versión piloto.</span></label>
+        <label class="consent"><input name="voluntary" type="checkbox" required><span>Entiendo que puedo decidir no participar o retirarme sin consecuencias y que los datos ya guardados no se eliminan automáticamente.</span></label>
+        <label class="consent"><input name="accept" type="checkbox" required><span>Acepto voluntariamente continuar con esta versión piloto y el almacenamiento local descrito.</span></label>
+        <div class="form-actions"><button class="button secondary" type="button" data-action="decline">No acepto</button><button class="button primary" type="submit">Acepto y continuar al registro</button></div>
+      </form>
+      <noscript><p class="callout">Para realizar los cuestionarios y tareas, activa JavaScript en el navegador. Puedes leer la información sin activarlo.</p></noscript>
+    </section>
+  </main>
+  <footer>Equipo 8 · Una sesión de siesta · <a href="estudio.html">Información del estudio</a></footer>
+  <script type="module" src="participar.js"></script>
+</body>
+</html>

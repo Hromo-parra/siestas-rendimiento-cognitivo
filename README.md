@@ -1,73 +1,70 @@
-# Pausa y desempeño
+# Equipo 8 · Siesta y desempeño
 
-Aplicación web del Equipo 8 para pilotear un estudio sobre oportunidad de siesta breve, descanso tranquilo, expectativas, culpa y rendimiento cognitivo.
+Aplicación estática en HTML, CSS y JavaScript vanilla para presentar y probar un estudio sobre actitudes hacia las siestas, expectativas, descanso, culpa y desempeño cognitivo. No requiere instalación ni compilación.
 
-## Estado
+## Enlaces actuales
 
-Piloto técnico, no instrumento clínico. La aplicación implementa un diseño cruzado intra-sujeto con dos sesiones contrabalanceadas:
+- [Información del estudio](https://hromo-parra.github.io/siestas-rendimiento-cognitivo/estudio.html).
+- [Consentimiento y participación](https://hromo-parra.github.io/siestas-rendimiento-cognitivo/participar.html).
+- [Piloto cruzado anterior](https://hromo-parra.github.io/siestas-rendimiento-cognitivo/).
 
-1. Oportunidad de siesta de 25–30 minutos.
-2. Descanso tranquilo de duración equivalente.
+El botón de la página informativa abre ahora un consentimiento dentro del proyecto. No requiere Google Forms ni una encuesta externa. `estudio.html` mantiene HTML y CSS integrados, sin JavaScript; el flujo funcional está en `participar.html` y sus módulos.
 
-Cada sesión incluye medición previa, batería cognitiva, intervalo, reporte posterior y la misma batería cognitiva. Las escalas subjetivas son preguntas visuales exploratorias de 0 a 10; no sustituyen instrumentos validados.
+## Flujo de una sola siesta
 
-## Uso
+1. Leer el consentimiento; aceptar explícitamente sus tres declaraciones o rechazar.
+2. Registrar edad, nivel universitario y criterios de participación. Se genera un código aleatorio, sin nombre, matrícula ni correo.
+3. Contestar preguntas previas y realizar tareas abreviadas de atención y memoria.
+4. Preparar una alarma propia e iniciar un intervalo de 25 minutos. El contador no emite sonido; la página conserva la hora de inicio aunque se cierre.
+5. Registrar sueño real, minutos e interrupciones; responder preguntas y repetir las tareas.
+6. Autoevaluar el desempeño posterior y cerrar la sesión.
 
-La aplicación está publicada en:
+La duración de aproximadamente 75 minutos corresponde a la propuesta original. Las etapas originales suman 65 minutos y las tareas técnicas actuales son abreviadas; la duración definitiva debe ajustarse tras el pilotaje.
 
-<https://hromo-parra.github.io/siestas-rendimiento-cognitivo/>
+## Consentimiento e instrumentos
 
-### Página informativa del estudio
+El texto completo está en `participar.html`; su versión también se identifica en `single-protocol.js`. Al modificar sustancialmente el texto, actualizar ambas referencias. Se guarda la versión y fecha de aceptación junto al registro; no se registra una aceptación al visitar la página o rechazar.
 
-<https://hromo-parra.github.io/siestas-rendimiento-cognitivo/estudio.html>
+El texto es un **borrador para revisión del equipo**, con contacto, custodia y revisión ética pendientes, visibles antes de aceptar. No afirma aprobación institucional. Las preguntas son **exploratorias**, no versiones validadas de CATS, CESQT, SVS o Stanford Sleepiness Scale. Revisar [PROTOCOLO-SIESTA-UNICA.md](PROTOCOLO-SIESTA-UNICA.md) antes de una recolección formal.
 
-`estudio.html` presenta la información facilitada por el equipo sobre una siesta de 25 minutos, evaluaciones antes y después y una duración total aproximada de 75 minutos. Contiene requisitos, procedimiento, mediciones, privacidad, voluntariedad, riesgos mínimos pendientes de especificar, lista de revisión y seis preguntas frecuentes. Es un archivo autónomo con HTML y CSS integrados, sin JavaScript, formularios ni dependencias externas; puede abrirse directamente en el navegador.
+## Modos y almacenamiento
 
-Esta página describe la propuesta de una sola siesta suministrada para la presentación. La aplicación piloto de `index.html` implementa el diseño cruzado descrito arriba; ambas versiones deben armonizarse antes de vincular la página a un flujo de participación.
+- **Participante:** consentimiento, registro, evaluaciones, retiro y reanudación desde “Retomar sesión” en el mismo navegador.
+- **Docente:** resumen de registros locales y exportación de respaldo JSON, resumen CSV y ensayos CSV.
+- **Demostración:** dentro del modo docente, “Probar con datos ficticios” permite recorrer el registro y las actividades, con tareas abreviadas y un control explícito para simular los 25 minutos. No guarda datos de investigación ni crea una aceptación real.
 
-Para completar la página:
+El estudio nuevo usa IndexedDB `equipo8-siesta-unica-v1`; el piloto anterior conserva `nap-study-pilot-v1`. No se mezclan los diseños ni los datos. Las respuestas no se transmiten automáticamente a un servidor. Los formularios se guardan al enviarlos; los ensayos se guardan individualmente. Cerrar la página no borra los registros. El modo docente no tiene autenticación: quien acceda al navegador puede leer o exportar datos locales.
 
-1. Sustituir `href="#link"` por el enlace definitivo al consentimiento o encuesta. Actualmente es un marcador sin destino operativo.
-2. Completar el contacto `[por definir]`.
-3. Confirmar instrumentos, criterios específicos y detalles del consentimiento señalados como pendientes.
-4. Confirmar la distribución del tiempo: las etapas suman 65 minutos y la duración total facilitada es de aproximadamente 75 minutos.
+Al retirarse se cancela la tarea activa y la sesión queda marcada como retirada, conservando lo ya guardado. Al retomar una batería interrumpida se registra otro intento; los anteriores quedan marcados como incompletos. No se deben borrar ni ocultar al revisar calidad.
 
-La publicación usa GitHub Pages desde la raíz de la rama `main`; no requiere compilación. Los cambios enviados a esa rama actualizan ambas páginas. Para previsualizar la página informativa con el servidor local indicado abajo, abrir `http://localhost:8015/estudio.html`.
-
-Para desarrollo local:
+## Desarrollo y publicación
 
 ```bash
-python3 -m http.server 8015
+python3 -m http.server 8016 --bind 127.0.0.1
 ```
 
-Después abre `http://localhost:8015`. No abras `index.html` directamente: los módulos JavaScript y el almacenamiento requieren servir el proyecto por HTTP.
+Abrir `http://127.0.0.1:8016/estudio.html`. Las tareas necesitan HTTP/HTTPS para cargar módulos y guardar datos; no abrir `participar.html` mediante `file://`.
 
-## Modos
+GitHub Pages publica la raíz de `main`. Enviar los cambios actualiza el sitio sin compilación. Los archivos no contienen claves ni servicios externos de captura de respuestas.
 
-- **Participante:** registro por código anónimo, medición previa, tareas, pausa y fase posterior.
-- **Docente:** avance de sesiones, control de calidad y exportación de respaldo JSON, resumen CSV y ensayos CSV.
+## Archivos del flujo nuevo
 
-Los datos permanecen en IndexedDB en el navegador. La aplicación no envía información a un servidor. El responsable del estudio debe exportar y resguardar los archivos conforme al protocolo aprobado.
+- `estudio.html`: presentación informativa independiente.
+- `participar.html`: consentimiento, estructura y estilos complementarios.
+- `participar.js`: formularios, estados de sesión, navegación, retiro, demo y exportación.
+- `single-protocol.js`: constantes, elegibilidad, validación y métricas del estudio nuevo.
+- `single-storage.js`: persistencia local en una base independiente.
+- `single-tasks.js`: tareas cancelables de atención y 2-back.
+- `protocol.js`: se reutiliza únicamente el generador de secuencias 2-back; el flujo anterior conserva sus funciones.
+- `PROTOCOLO-SIESTA-UNICA.md`: alcance científico y diccionario de esta versión.
 
-## Archivos principales
+Los documentos `PROTOCOL.md`, `DATA_DICTIONARY.md` y `MANUAL-DE-APLICACION.md` describen el **piloto cruzado anterior de dos sesiones**.
 
-- `index.html`: estructura base accesible.
-- `styles.css`: sistema visual y diseño adaptable.
-- `app.js`: flujo del estudio y panel docente.
-- `protocol.js`: contrabalanceo, estímulos y cálculo de métricas.
-- `tasks.js`: atención sostenida y 2-back.
-- `db.js`: persistencia local.
-- `csv.js`: exportación.
-- `PROTOCOL.md`: propuesta metodológica y decisiones pendientes.
-- `DATA_DICTIONARY.md`: estructura de los datos.
-- `MANUAL-DE-APLICACION.md`: guía operativa.
-
-## Pruebas
+## Verificación
 
 ```bash
 npm test
+npm run check
 ```
 
-## Privacidad y seguridad
-
-No se solicitan nombres, matrículas, correos ni fechas de nacimiento. La participación debe contar con consentimiento y aprobación ética institucional antes de recolectar datos reales. Si persiste somnolencia o inercia del sueño, la persona no debe conducir ni realizar tareas de riesgo.
+Pruebas de elegibilidad, coherencia de minutos, mediana, omisiones, puntuación 2-back, reloj de 25 minutos y exportación de faltantes. Revisión de navegador: enlace al consentimiento, rechazo, declaraciones inicialmente sin marcar y obligatorias, recorrido de demostración previo–posterior, retiro durante tareas, validación del caso sin sueño, cierre, ausencia de registros de demo y diseño móvil de 375 px.
