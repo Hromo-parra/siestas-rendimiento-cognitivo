@@ -13,9 +13,26 @@ Cada sesión incluye medición previa, batería cognitiva, intervalo, reporte po
 
 ## Uso
 
-La versión publicada estará en:
+La aplicación está publicada en:
 
 <https://hromo-parra.github.io/siestas-rendimiento-cognitivo/>
+
+### Página informativa del estudio
+
+<https://hromo-parra.github.io/siestas-rendimiento-cognitivo/estudio.html>
+
+`estudio.html` presenta la información facilitada por el equipo sobre una siesta de 25 minutos, evaluaciones antes y después y una duración total aproximada de 75 minutos. Contiene requisitos, procedimiento, mediciones, privacidad, voluntariedad, riesgos mínimos pendientes de especificar, lista de revisión y seis preguntas frecuentes. Es un archivo autónomo con HTML y CSS integrados, sin JavaScript, formularios ni dependencias externas; puede abrirse directamente en el navegador.
+
+Esta página describe la propuesta de una sola siesta suministrada para la presentación. La aplicación piloto de `index.html` implementa el diseño cruzado descrito arriba; ambas versiones deben armonizarse antes de vincular la página a un flujo de participación.
+
+Para completar la página:
+
+1. Sustituir `href="#link"` por el enlace definitivo al consentimiento o encuesta. Actualmente es un marcador sin destino operativo.
+2. Completar el contacto `[por definir]`.
+3. Confirmar instrumentos, criterios específicos y detalles del consentimiento señalados como pendientes.
+4. Confirmar la distribución del tiempo: las etapas suman 65 minutos y la duración total facilitada es de aproximadamente 75 minutos.
+
+La publicación usa GitHub Pages desde la raíz de la rama `main`; no requiere compilación. Los cambios enviados a esa rama actualizan ambas páginas. Para previsualizar la página informativa con el servidor local indicado abajo, abrir `http://localhost:8015/estudio.html`.
 
 Para desarrollo local:
 
@@ -54,4 +71,3 @@ npm test
 ## Privacidad y seguridad
 
 No se solicitan nombres, matrículas, correos ni fechas de nacimiento. La participación debe contar con consentimiento y aprobación ética institucional antes de recolectar datos reales. Si persiste somnolencia o inercia del sueño, la persona no debe conducir ni realizar tareas de riesgo.
-

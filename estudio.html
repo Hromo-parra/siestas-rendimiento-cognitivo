@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Información para estudiantes universitarios sobre un estudio de actitudes, expectativas y siesta: participación, procedimiento, privacidad y consentimiento.">
+  <title>Equipo 8 · Estudio sobre actitudes, expectativas y siesta</title>
+  <style>
+    /* Base visual: colores suaves, contraste legible y tipografía del sistema. */
+    :root {
+      --background: #f6f5f0;
+      --surface: #ffffff;
+      --ink: #203a3b;
+      --body: #354748;
+      --muted: #536665;
+      --accent: #245d55;
+      --accent-hover: #19463f;
+      --soft: #e8efea;
+      --warm: #f5eedf;
+      --border: #d5ded8;
+      --radius: 1.4rem;
+      --width: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 1.5rem; }
+    body {
+      margin: 0; background: var(--background); color: var(--body);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem; line-height: 1.7; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-underline-offset: 0.2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { color: var(--ink); }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; text-wrap: balance; }
+    h1 {
+      max-width: 23ch; margin-bottom: 1.6rem; font-size: clamp(2.15rem, 4.3vw, 3.8rem);
+      line-height: 1.13; letter-spacing: -0.035em;
+    }
+    h2 { margin-bottom: 1rem; font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.2; letter-spacing: -0.025em; }
+    h3 { margin-bottom: 0.65rem; font-size: 1.1rem; line-height: 1.4; }
+    p:last-child { margin-bottom: 0; }
+    ul, ol { padding-left: 1.3rem; }
+    li + li { margin-top: 0.65rem; }
+    .container { width: min(var(--width), calc(100% - 3rem)); margin-inline: auto; }
+    .skip-link {
+      position: absolute; z-index: 10; top: 0.75rem; left: 0.75rem;
+      padding: 0.7rem 1rem; transform: translateY(-180%);
+      background: var(--ink); color: white; border-radius: 0.5rem;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    /* Encabezado y navegación interna. */
+    .site-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+      padding-block: 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .identity { display: flex; align-items: center; gap: 0.8rem; color: var(--ink); font-weight: 700; }
+    .team-badge {
+      display: grid; place-items: center; flex-shrink: 0; width: 2.6rem; height: 2.6rem;
+      border: 1px solid var(--accent); border-radius: 50%; font-size: 0.9rem;
+    }
+    nav ul { display: flex; flex-wrap: wrap; gap: 0.7rem 1.3rem; margin: 0; padding: 0; list-style: none; }
+    nav li + li { margin: 0; }
+    nav a { font-size: 0.9rem; }
+    .eyebrow {
+      margin-bottom: 1.1rem; color: var(--accent); font-size: 0.75rem;
+      font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase;
+    }
+
+    /* Presentación del estudio y ficha de participación. */
+    .hero {
+      display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.85fr);
+      align-items: start; gap: clamp(2rem, 5vw, 4.5rem); padding-block: clamp(2.7rem, 6vw, 5rem);
+    }
+    .lead { max-width: 60ch; font-size: 1.1rem; }
+    .hero-note { max-width: 60ch; color: var(--muted); font-size: 0.95rem; }
+    .overview { padding: 1.8rem; background: var(--soft); border: 1px solid var(--border); border-radius: var(--radius); }
+    .overview h2 { font-family: inherit; font-size: 1.15rem; font-weight: 700; letter-spacing: 0; }
+    .duration { margin-bottom: 0.3rem; color: var(--ink); font-size: 2.6rem; font-weight: 650; line-height: 1.2; letter-spacing: -0.05em; }
+    .small { color: var(--muted); font-size: 0.9rem; }
+    .facts { margin-block: 1.5rem 0; }
+    .facts div { padding-block: 0.85rem; border-top: 1px solid #bdcfc4; }
+    .facts dt { color: var(--ink); font-weight: 700; }
+    .facts dd { margin: 0.1rem 0 0; font-size: 0.95rem; }
+
+    /* Secciones, tarjetas y procedimiento. */
+    .section { padding-block: 3rem; border-top: 1px solid var(--border); }
+    .section-intro { max-width: 73ch; margin-bottom: 1.8rem; }
+    .question { margin: 1.6rem 0 0; padding: 1.4rem 1.6rem; background: var(--surface); border-left: 4px solid var(--accent); border-radius: 0 1rem 1rem 0; }
+    .question p { max-width: 85ch; }
+    .two-columns, .steps, .ethics-grid { display: grid; gap: 1.2rem; }
+    .two-columns, .ethics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { padding: 1.6rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .card ul { margin-bottom: 0; }
+    .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-block: 1.8rem 1rem; padding: 0; list-style: none; }
+    .steps > li { margin: 0; }
+    .step-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-bottom: 1.4rem; }
+    .step-letter { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; background: var(--soft); border-radius: 50%; color: var(--accent); font-weight: 750; }
+    .time { color: var(--accent); font-size: 0.9rem; font-weight: 650; }
+    .notice { margin-top: 1.2rem; padding: 1.1rem 1.3rem; background: var(--warm); border-radius: 0.9rem; font-size: 0.95rem; }
+    .measurements { margin: 0; }
+    .measurement { display: grid; grid-template-columns: minmax(170px, 0.8fr) minmax(0, 1.7fr); gap: 1.5rem; padding-block: 1.1rem; border-bottom: 1px solid var(--border); }
+    .measurement:first-child { border-top: 1px solid var(--border); }
+    .measurement dt { color: var(--ink); font-weight: 700; }
+    .measurement dd { margin: 0; }
+
+    /* Lista de preparación: lectura informativa, sin registro de respuestas. */
+    .preparation { padding: clamp(1.5rem, 4vw, 2.4rem); background: var(--soft); border: 1px solid var(--border); border-radius: var(--radius); }
+    .checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+    .checklist li { display: flex; align-items: flex-start; gap: 0.75rem; margin: 0; }
+    .check-symbol { flex: 0 0 1.15rem; width: 1.15rem; height: 1.15rem; margin-top: 0.3rem; border: 1.5px solid var(--accent); border-radius: 0.2rem; }
+
+    /* Preguntas desplegables nativas: teclado y funcionamiento sin JavaScript. */
+    .faq-list { margin-top: 1.7rem; border-top: 1px solid var(--border); }
+    details { border-bottom: 1px solid var(--border); }
+    summary { padding: 1.2rem 0.5rem; color: var(--ink); font-weight: 650; cursor: pointer; }
+    summary::marker { color: var(--accent); }
+    details[open] summary { padding-bottom: 0.75rem; }
+    .faq-answer { max-width: 80ch; padding: 0 1.5rem 1.3rem; }
+
+    /* Cierre: acceso al consentimiento y decisión voluntaria. */
+    .decision { margin-block: 1rem 3.5rem; padding: clamp(1.7rem, 4vw, 3rem); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center; }
+    .decision p { max-width: 68ch; margin-inline: auto; }
+    .button {
+      display: inline-flex; justify-content: center; align-items: center; max-width: 100%; min-height: 3rem;
+      margin-block: 0.6rem 1rem; padding: 0.9rem 1.5rem; background: var(--accent); border: 2px solid var(--accent);
+      border-radius: 0.75rem; color: white; font-weight: 650; line-height: 1.4; text-decoration: none;
+    }
+    .button:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+    footer { padding-block: 1.5rem 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+
+    /* Ajustes para tabletas, teléfonos e impresión. */
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr; gap: 2rem; }
+      h1 { max-width: 28ch; }
+      .steps { grid-template-columns: 1fr; }
+      .step-top { margin-bottom: 1rem; }
+    }
+    @media (max-width: 600px) {
+      .container { width: calc(100% - 2rem); }
+      .site-header { align-items: flex-start; flex-direction: column; gap: 1rem; }
+      .two-columns, .ethics-grid, .checklist, .measurement { grid-template-columns: 1fr; }
+      .measurement { gap: 0.35rem; }
+      .section { padding-block: 2.2rem; }
+      .card, .overview { padding: 1.3rem; }
+      .button { width: 100%; }
+    }
+    @media print {
+      body { background: white; color: black; font-size: 11pt; }
+      .container { width: 100%; }
+      nav, .skip-link { display: none; }
+      .hero, .two-columns, .steps, .ethics-grid, .checklist { display: block; }
+      .card, .overview, .preparation, .decision { margin-bottom: 1rem; background: white; break-inside: avoid; }
+      .section { padding-block: 1.5rem; }
+      h1 { font-size: 27pt; }
+      h2 { font-size: 20pt; }
+      details::details-content { content-visibility: visible; }
+      details > .faq-answer { display: block !important; }
+      .button { background: white; color: black; border-color: black; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header container">
+    <div class="identity">
+      <span class="team-badge" aria-hidden="true">08</span>
+      <span>Equipo 8 · Investigación universitaria</span>
+    </div>
+    <nav aria-label="Secciones de la página">
+      <ul>
+        <li><a href="#estudio">El estudio</a></li>
+        <li><a href="#procedimiento">Procedimiento</a></li>
+        <li><a href="#preguntas">Preguntas frecuentes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido" class="container">
+    <section class="hero" aria-labelledby="titulo-estudio">
+      <div>
+        <p class="eyebrow">Información para posibles participantes</p>
+        <h1 id="titulo-estudio">Actitudes, expectativas y siesta: relación con la percepción de descanso, la culpa y el rendimiento cognitivo en estudiantes universitarios</h1>
+        <p class="lead">Este estudio busca explorar cómo las actitudes y expectativas hacia una siesta breve se relacionan con el descanso percibido, la culpa posterior y el desempeño en tareas de atención y memoria.</p>
+        <p class="hero-note">Aquí puedes revisar qué implica participar antes de decidir. La participación es voluntaria y esta página no sustituye el consentimiento informado.</p>
+      </div>
+      <aside class="overview" aria-labelledby="vista-general">
+        <h2 id="vista-general">La participación, de un vistazo</h2>
+        <p class="duration">≈ 1 h 15 min</p>
+        <p class="small">Duración total estimada.</p>
+        <dl class="facts">
+          <div><dt>¿Para quién?</dt><dd>Estudiantes de grado o posgrado de 18 años o más que cumplan los requisitos.</dd></div>
+          <div><dt>¿Dónde?</dt><dd>Siesta en casa; cuestionarios y tareas cognitivas en línea.</dd></div>
+          <div><dt>¿Qué harás?</dt><dd>Una evaluación previa, un periodo de siesta de 25 minutos y una evaluación posterior.</dd></div>
+          <div><dt>Tu decisión</dt><dd>Puedes retirarte sin consecuencias.</dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section id="estudio" class="section" aria-labelledby="resumen-titulo">
+      <p class="eyebrow">01 · El estudio</p>
+      <h2 id="resumen-titulo">¿Qué queremos conocer?</h2>
+      <div class="section-intro">
+        <p>Se recogerán respuestas sobre lo que piensas y esperas de las siestas, así como sobre tu experiencia después de un periodo breve para dormir. También se comparará tu desempeño en tareas cognitivas antes y después, junto con tu propia valoración de ese desempeño.</p>
+        <p>El estudio examina relaciones entre estas mediciones. No presupone que la siesta mejore el rendimiento ni que produzca culpa; tampoco permite asumir, por sí sola, una relación de causa y efecto.</p>
+      </div>
+      <div class="question">
+        <h3>Pregunta de investigación</h3>
+        <p>¿En qué medida las actitudes hacia las siestas y las expectativas previas se relacionan con la culpa posterior, la percepción de descanso y el cambio en el rendimiento cognitivo (objetivo y autoevaluado) después de una siesta breve en estudiantes universitarios?</p>
+      </div>
+    </section>
+
+    <section id="requisitos" class="section" aria-labelledby="requisitos-titulo">
+      <p class="eyebrow">02 · Requisitos</p>
+      <h2 id="requisitos-titulo">¿Quién puede participar?</h2>
+      <div class="two-columns">
+        <article class="card">
+          <h3>Criterios de inclusión</h3>
+          <ul>
+            <li>Tener 18 años o más.</li>
+            <li>Estudiar un programa universitario de grado o posgrado.</li>
+            <li>Tener disponibilidad para una siesta en casa en el horario acordado.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Criterios de exclusión</h3>
+          <ul>
+            <li>Tener un diagnóstico de trastorno del sueño, como insomnio o apnea.</li>
+            <li>Usar habitualmente sustancias que afecten el sueño.</li>
+          </ul>
+          <p class="small">Se registrará el consumo de cafeína durante la hora previa. Si tienes dudas sobre cómo se aplican estos criterios a tu situación, esto se te indicará en el consentimiento.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="procedimiento" class="section" aria-labelledby="procedimiento-titulo">
+      <p class="eyebrow">03 · Procedimiento y duración</p>
+      <h2 id="procedimiento-titulo">Tres momentos de participación</h2>
+      <p class="section-intro">La duración total prevista es de aproximadamente 1 hora y 15 minutos. Las actividades siguen este orden:</p>
+      <ol class="steps">
+        <li class="card">
+          <div class="step-top"><span class="step-letter" aria-hidden="true">A</span><span class="time">≈ 20 minutos</span></div>
+          <h3>Antes de la siesta</h3>
+          <p>Responderás un cuestionario breve y realizarás tareas cognitivas de atención y memoria en línea.</p>
+        </li>
+        <li class="card">
+          <div class="step-top"><span class="step-letter" aria-hidden="true">B</span><span class="time">25 minutos</span></div>
+          <h3>Periodo de siesta</h3>
+          <p>Dispondrás de 25 minutos para una siesta en casa, en el horario acordado. Usarás una alarma para marcar el final del periodo.</p>
+        </li>
+        <li class="card">
+          <div class="step-top"><span class="step-letter" aria-hidden="true">C</span><span class="time">≈ 20 minutos</span></div>
+          <h3>Después de la siesta</h3>
+          <p>Responderás otro cuestionario breve y repetirás las tareas cognitivas. Se registrará si dormiste, durante cuántos minutos y si hubo interrupciones.</p>
+        </li>
+      </ol>
+      <p class="notice"><strong>Sobre los tiempos:</strong> las tres etapas descritas suman aproximadamente 65 minutos, mientras que la duración total informada es de unos 75 minutos. La distribución definitiva del tiempo se te indicará en el consentimiento.</p>
+    </section>
+
+    <section id="mediciones" class="section" aria-labelledby="mediciones-titulo">
+      <p class="eyebrow">04 · Qué se medirá</p>
+      <h2 id="mediciones-titulo">Tus respuestas y desempeño</h2>
+      <p class="section-intro">Se combinarán cuestionarios, escalas de valoración y tareas cognitivas. Algunos instrumentos o versiones están por confirmar.</p>
+      <dl class="measurements">
+        <div class="measurement"><dt>Actitudes hacia las siestas</dt><dd>Instrumento CATS; versión por confirmar.</dd></div>
+        <div class="measurement"><dt>Culpa después de la siesta</dt><dd>Subescala de culpa del CESQT adaptada; adaptación por confirmar.</dd></div>
+        <div class="measurement"><dt>Descanso percibido</dt><dd>Escala visual analógica (EVA) de 0 a 10 y SVS por confirmar.</dd></div>
+        <div class="measurement"><dt>Somnolencia</dt><dd>Stanford Sleepiness Scale, una escala para valorar la somnolencia.</dd></div>
+        <div class="measurement"><dt>Expectativas y autoevaluación</dt><dd>Ítems tipo Likert: preguntas con opciones ordenadas para expresar una valoración.</dd></div>
+        <div class="measurement"><dt>Rendimiento cognitivo</dt><dd>Desempeño en tareas de atención y memoria antes y después del periodo de siesta.</dd></div>
+        <div class="measurement"><dt>Condiciones de la siesta</dt><dd>Si dormiste, minutos de sueño, interrupciones y consumo de cafeína durante la hora previa.</dd></div>
+      </dl>
+    </section>
+
+    <section id="derechos" class="section" aria-labelledby="derechos-titulo">
+      <p class="eyebrow">05 · Privacidad y derechos</p>
+      <h2 id="derechos-titulo">Información para decidir</h2>
+      <div class="ethics-grid">
+        <article class="card">
+          <h3>Privacidad</h3>
+          <p>Los datos serán anónimos y se usarán únicamente para investigación. Los detalles sobre la plataforma, el almacenamiento, el acceso y el tiempo de conservación se te indicarán en el consentimiento.</p>
+        </article>
+        <article class="card">
+          <h3>Participación voluntaria</h3>
+          <p>Tú decides si deseas participar. Puedes no participar o retirarte sin consecuencias. El procedimiento para interrumpir tu participación se te indicará en el consentimiento.</p>
+        </article>
+        <article class="card">
+          <h3>Riesgos mínimos y posibles molestias</h3>
+          <p>Las actividades previstas son cuestionarios, tareas cognitivas y un periodo de siesta en casa. Algunas preguntas abordan experiencias personales, como la culpa o el descanso.</p>
+          <p>La descripción específica de los riesgos mínimos, las posibles molestias y las medidas previstas se te indicará en el consentimiento. No se debe interpretar la participación como libre de riesgos.</p>
+        </article>
+        <article class="card">
+          <h3>Consentimiento informado</h3>
+          <p>Antes de decidir, revisa el consentimiento, incluidos los requisitos, los instrumentos definitivos y las condiciones de participación. No se promete una mejora en el descanso o el rendimiento cognitivo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="antes-titulo">
+      <div class="preparation">
+        <p class="eyebrow">Lista de revisión personal</p>
+        <h2 id="antes-titulo">Antes de participar</h2>
+        <p>Usa esta lista para revisar la información y preparar tus dudas.</p>
+        <ul class="checklist">
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Confirma que tienes 18 años o más y estudias un grado o posgrado.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Revisa los criterios de exclusión y cualquier duda sobre su aplicación.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Considera una disponibilidad total aproximada de 1 hora y 15 minutos.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Confirma tu disponibilidad para la siesta en casa en el horario acordado.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Prevé acceso a las actividades en línea y una alarma para los 25 minutos.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Ten presente tu consumo de cafeína durante la hora previa para registrarlo.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Lee el consentimiento y revisa la información pendiente de confirmar.</span></li>
+          <li><span class="check-symbol" aria-hidden="true"></span><span>Recuerda que puedes decidir no participar o retirarte sin consecuencias.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="preguntas" class="section" aria-labelledby="preguntas-titulo">
+      <p class="eyebrow">06 · Preguntas frecuentes</p>
+      <h2 id="preguntas-titulo">Dudas sobre la participación</h2>
+      <div class="faq-list">
+        <details>
+          <summary>1. ¿Qué pasa si no me duermo?</summary>
+          <div class="faq-answer"><p>Se registrará si dormiste, durante cuántos minutos y si hubo interrupciones. Si no logras dormir, las instrucciones sobre cómo continuar se te indicarán en el consentimiento.</p></div>
+        </details>
+        <details>
+          <summary>2. ¿Puedo retirarme después de empezar?</summary>
+          <div class="faq-answer"><p>Sí. La participación es voluntaria y puedes retirarte sin consecuencias. El procedimiento para hacerlo se te indicará en el consentimiento.</p></div>
+        </details>
+        <details>
+          <summary>3. ¿Qué datos se guardan y para qué se usan?</summary>
+          <div class="faq-answer"><p>Se recogerán respuestas a cuestionarios, resultados de tareas cognitivas y registros sobre la siesta y la cafeína previa. Los datos serán anónimos y de uso exclusivo para investigación. Los detalles de almacenamiento, acceso y conservación se te indicarán en el consentimiento.</p></div>
+        </details>
+        <details>
+          <summary>4. ¿Puedo participar si consumí cafeína?</summary>
+          <div class="faq-answer"><p>Se registrará el consumo de cafeína durante la hora previa. También existe un criterio de exclusión por uso habitual de sustancias que afecten el sueño. La aplicación específica de este criterio a la cafeína se te indicará en el consentimiento.</p></div>
+        </details>
+        <details>
+          <summary>5. ¿Qué necesito y cuánto tiempo debo reservar?</summary>
+          <div class="faq-answer"><p>Considera aproximadamente 1 hora y 15 minutos, disponibilidad para una siesta en casa en el horario acordado, acceso a las actividades en línea y una alarma. Los requisitos técnicos y la distribución definitiva del tiempo se te indicarán en el consentimiento.</p></div>
+        </details>
+        <details>
+          <summary>6. ¿Qué hago si una pregunta o actividad me incomoda?</summary>
+          <div class="faq-answer"><p>Puedes retirarte sin consecuencias. Las opciones para omitir preguntas, pausar actividades o comunicar una molestia se te indicarán en el consentimiento.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="decision" aria-labelledby="continuar-titulo">
+      <p class="eyebrow">Tu participación es una decisión personal</p>
+      <h2 id="continuar-titulo">Revisa el consentimiento antes de decidir</h2>
+      <p>Si deseas continuar, el siguiente paso es consultar el consentimiento informado. Puedes decidir no participar.</p>
+      <!-- Sustituir #link por la dirección definitiva del consentimiento o encuesta. -->
+      <a class="button" href="#link">Continuar al consentimiento/encuesta</a>
+      <p class="small">Esta página es informativa. Leerla no constituye tu consentimiento para participar.</p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p><strong>Equipo 8</strong> · Estudio sobre actitudes, expectativas y siesta.</p>
+    <p>Contacto del equipo de investigación: [por definir]</p>
+  </footer>
+</body>
+</html>
