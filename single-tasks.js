@@ -1,6 +1,11 @@
 import { buildNBackSequence } from './protocol.js';
 import { summarizeAttention, summarizeMemory } from './single-protocol.js';
 
+export const NBACK_FORMAL_TRIALS = 48;
+export const NBACK_PRACTICE_TRIALS = 8;
+export const NBACK_STIMULUS_MS = 1200;
+export const NBACK_INTERVAL_MS = 300;
+
 function check(signal) { signal.throwIfAborted(); }
 function wait(ms, signal) {
   check(signal);
@@ -28,6 +33,57 @@ function showInstructions(container, { signal, eyebrow, title, content }) {
     button.addEventListener('click', start, { once: true });
     signal.addEventListener('abort', abort, { once: true });
   });
+}
+
+function waitForContinue(container, signal, { title, content, label }) {
+  check(signal);
+  container.innerHTML = `<section class="task-instructions"><h1>${title}</h1>${content}<div class="form-actions centered"><button type="button" class="button primary task-start">${label}</button></div></section>`;
+  const button = container.querySelector('.task-start');
+  button.focus();
+  return new Promise((resolve, reject) => {
+    const start = () => { cleanup(); resolve(); };
+    const abort = () => { cleanup(); reject(new DOMException('Actividad interrumpida', 'AbortError')); };
+    function cleanup() {
+      button.removeEventListener('click', start);
+      signal.removeEventListener('abort', abort);
+    }
+    button.addEventListener('click', start, { once: true });
+    signal.addEventListener('abort', abort, { once: true });
+  });
+}
+
+async function runMemoryPractice(container, signal) {
+  // Dos coincidencias entre las seis posiciones que ya permiten comparar 2-back.
+  const plan = ['●', '▲', '●', '■', '◆', '■', '★', '✚'].map((stimulus, index, sequence) => ({
+    index, stimulus, target: index >= 2 && stimulus === sequence[index - 2]
+  }));
+  container.innerHTML = `<div class="stimulus nback" aria-label="Símbolo de práctica">+</div><button type="button" class="button primary nback-button">Coincide</button><p class="task-feedback" aria-live="polite">Práctica 0 / ${NBACK_PRACTICE_TRIALS}</p>`;
+  const stimulus = container.querySelector('.stimulus');
+  const button = container.querySelector('.nback-button');
+  button.focus();
+  for (const item of plan) {
+    check(signal);
+    let response = false;
+    stimulus.textContent = item.stimulus;
+    const handler = event => {
+      if (event.type === 'keydown' && (event.code !== 'Space' || event.repeat)) return;
+      event.preventDefault();
+      if (!response) { response = true; button.classList.add('pressed'); }
+    };
+    document.addEventListener('keydown', handler); button.addEventListener('pointerdown', handler);
+    try { await wait(NBACK_STIMULUS_MS, signal); }
+    finally {
+      document.removeEventListener('keydown', handler); button.removeEventListener('pointerdown', handler);
+      button.classList.remove('pressed');
+    }
+    check(signal);
+    const feedback = item.index < 2 ? 'Sólo observa' : item.target === response ? 'Correcto' : item.target ? 'Era una coincidencia' : 'No era una coincidencia';
+    stimulus.textContent = feedback;
+    container.querySelector('.task-feedback').textContent = `Práctica ${item.index + 1} / ${NBACK_PRACTICE_TRIALS}`;
+    await wait(500, signal);
+    stimulus.textContent = '+';
+    await wait(NBACK_INTERVAL_MS, signal);
+  }
 }
 
 export async function attention(container, { signal, demo, onTrial }) {
@@ -78,12 +134,19 @@ export async function attention(container, { signal, demo, onTrial }) {
 
 export async function memory(container, { signal, demo, onTrial, seed }) {
   const trials = [];
-  const plan = buildNBackSequence(seed, demo ? 6 : 36);
+  const plan = buildNBackSequence(seed, demo ? 8 : NBACK_FORMAL_TRIALS);
   await showInstructions(container, {
     signal,
     eyebrow: 'Instrucciones · Memoria de trabajo',
     title: 'Compara cada símbolo con el de dos posiciones atrás',
-    content: '<p>Pulsa “Coincide” o la barra espaciadora solamente cuando el símbolo actual sea igual al que apareció dos posiciones antes.</p><p>En las dos primeras posiciones sólo observa. Después de comenzar, estas instrucciones desaparecerán.</p>'
+    content: `<p>Pulsa “Coincide” o la barra espaciadora solamente cuando el símbolo actual sea igual al que apareció dos posiciones antes.</p><p>Primero realizarás ${NBACK_PRACTICE_TRIALS} ejercicios con retroalimentación. Después comenzará el bloque formal, sin indicar si acertaste.</p>`
+  });
+  check(signal);
+  await runMemoryPractice(container, signal);
+  await waitForContinue(container, signal, {
+    title: 'Práctica terminada',
+    content: `<p>Ahora comenzará la prueba formal de ${demo ? 8 : NBACK_FORMAL_TRIALS} estímulos. Ya no recibirás retroalimentación.</p><p>Recuerda responder sólo cuando el símbolo coincida con el presentado dos posiciones antes.</p>`,
+    label: 'Comenzar prueba formal'
   });
   check(signal);
   container.innerHTML = '<div class="stimulus nback" aria-label="Símbolo actual">+</div><button type="button" class="button primary nback-button">Coincide</button><p class="task-progress" aria-live="polite"></p>';
@@ -101,7 +164,7 @@ export async function memory(container, { signal, demo, onTrial, seed }) {
       if (!response) { response = true; rt = Math.round(performance.now() - onset); button.classList.add('pressed'); }
     };
     document.addEventListener('keydown', handler); button.addEventListener('pointerdown', handler);
-    try { await wait(demo ? 120 : 750, signal); }
+    try { await wait(demo ? 300 : NBACK_STIMULUS_MS, signal); }
     finally {
       document.removeEventListener('keydown', handler); button.removeEventListener('pointerdown', handler);
       button.classList.remove('pressed');
@@ -110,7 +173,7 @@ export async function memory(container, { signal, demo, onTrial, seed }) {
     const row = { task: 'nback', trial_index: item.index, stimulus: item.stimulus, target: item.target, response, rt_ms: rt, recorded_at: new Date().toISOString() };
     trials.push(row); await onTrial(row);
     stimulus.textContent = '+'; container.querySelector('.task-progress').textContent = `${item.index + 1} / ${plan.length}`;
-    await wait(demo ? 30 : 180, signal);
+    await wait(demo ? 80 : NBACK_INTERVAL_MS, signal);
   }
   return summarizeMemory(trials);
 }

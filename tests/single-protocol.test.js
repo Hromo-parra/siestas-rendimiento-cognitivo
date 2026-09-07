@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { isEligible, validateSleepReport, summarizeAttention, summarizeMemory, remainingNap, summaryRow, NAP_MS, DATABASE_NAME } from '../single-protocol.js';
+import { NBACK_FORMAL_TRIALS, NBACK_PRACTICE_TRIALS, NBACK_STIMULUS_MS, NBACK_INTERVAL_MS } from '../single-tasks.js';
 
 test('requiere mayoría de edad, estudios, disponibilidad y exclusiones resueltas', () => {
   const eligible = {age:18,education:'grado',available:'yes',sleep_disorder:'no',substances:'no'};
@@ -26,6 +27,12 @@ test('la mediana usa ambos valores centrales; omisiones y anticipaciones quedan 
 test('2-back no infla la exactitud con posiciones sin comparación disponible', () => {
   const result=summarizeMemory([{trial_index:0,target:false,response:false},{trial_index:1,target:false,response:false},{trial_index:2,target:true,response:false},{trial_index:3,target:false,response:false}]);
   assert.equal(result.scored_n,2); assert.equal(result.accuracy,.5);
+  assert.equal(result.balanced_accuracy,.5); assert.equal(result.correct_rejections_n,1);
+});
+
+test('2-back usa práctica separada y un ritmo más pausado', () => {
+  assert.equal(NBACK_PRACTICE_TRIALS,8); assert.equal(NBACK_FORMAL_TRIALS,48);
+  assert.equal(NBACK_STIMULUS_MS,1200); assert.equal(NBACK_INTERVAL_MS,300);
 });
 
 test('el intervalo persiste por fecha absoluta y dura 25 minutos', () => {

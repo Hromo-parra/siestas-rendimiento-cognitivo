@@ -37,12 +37,20 @@ export function summarizeAttention(trials) {
 export function summarizeMemory(trials) {
   // Las dos primeras posiciones son de preparación, no decisiones 2-back.
   const scored = trials.filter(t => t.trial_index >= 2);
+  const hits = scored.filter(t => t.target && t.response).length;
+  const misses = scored.filter(t => t.target && !t.response).length;
+  const falseAlarms = scored.filter(t => !t.target && t.response).length;
+  const correctRejections = scored.filter(t => !t.target && !t.response).length;
+  const hitRate = hits + misses ? hits / (hits + misses) : null;
+  const specificity = correctRejections + falseAlarms ? correctRejections / (correctRejections + falseAlarms) : null;
   return {
     scored_n: scored.length,
     accuracy: scored.length ? scored.filter(t => t.target === t.response).length / scored.length : null,
-    hits_n: scored.filter(t => t.target && t.response).length,
-    misses_n: scored.filter(t => t.target && !t.response).length,
-    false_alarms_n: scored.filter(t => !t.target && t.response).length
+    balanced_accuracy: Number.isFinite(hitRate) && Number.isFinite(specificity) ? (hitRate + specificity) / 2 : null,
+    hits_n: hits,
+    misses_n: misses,
+    false_alarms_n: falseAlarms,
+    correct_rejections_n: correctRejections
   };
 }
 
@@ -69,6 +77,9 @@ export function summaryRow(session) {
     pvt_omissions_pre: pre.pvt?.omissions_n, pvt_omissions_post: post.pvt?.omissions_n,
     nback_accuracy_pre: pre.nback?.accuracy, nback_accuracy_post: post.nback?.accuracy,
     nback_change: delta(pre.nback?.accuracy, post.nback?.accuracy),
+    nback_balanced_accuracy_pre: pre.nback?.balanced_accuracy,
+    nback_balanced_accuracy_post: post.nback?.balanced_accuracy,
+    nback_balanced_accuracy_change: delta(pre.nback?.balanced_accuracy, post.nback?.balanced_accuracy),
     interrupted_attempts: session.interrupted_attempts || 0,
     visibility_changes: session.visibility_changes || 0,
     interval_started_at: session.interval_started_at, completed_at: session.completed_at

@@ -90,7 +90,7 @@ function questionnaire(phase) {
 }
 
 function batteryIntro(phase) {
-  card('Tareas de atención y memoria', `<p>Completarás una tarea de atención de 20 ensayos y una tarea de memoria 2-back de 36 estímulos.</p><p>Cada tarea tendrá su propia página de instrucciones. Cuando comience la medición, el texto explicativo desaparecerá y sólo permanecerán el estímulo y los controles necesarios.</p><p>Usa el mismo dispositivo en ambas evaluaciones. Puedes retirarte en cualquier momento. Si interrumpes una tarea, al retomar comenzarás un intento nuevo y el intento anterior quedará identificado como incompleto.</p>${demo ? '<p>En la demostración las tareas tienen menos ensayos.</p>' : ''}${action('battery','Continuar a las instrucciones',true)}`, `Evaluación ${phase === 'pre' ? 'previa' : 'posterior'}`);
+  card('Tareas de atención y memoria', `<p>Completarás una tarea de atención de 20 ensayos y una tarea de memoria 2-back con 8 ejercicios de práctica y 48 estímulos formales.</p><p>Cada tarea tendrá su propia página de instrucciones. Cuando comience la medición, el texto explicativo desaparecerá y sólo permanecerán el estímulo y los controles necesarios.</p><p>Usa el mismo dispositivo en ambas evaluaciones. Puedes retirarte en cualquier momento. Si interrumpes una tarea, al retomar comenzarás un intento nuevo y el intento anterior quedará identificado como incompleto.</p>${demo ? '<p>En la demostración el bloque formal tiene menos estímulos.</p>' : ''}${action('battery','Continuar a las instrucciones',true)}`, `Evaluación ${phase === 'pre' ? 'previa' : 'posterior'}`);
 }
 
 async function runBattery() {

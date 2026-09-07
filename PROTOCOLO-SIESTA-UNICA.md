@@ -26,7 +26,7 @@ Después: sueño sí/no/incierto, minutos reales del intervalo, minutos estimado
 
 Atención: 20 ensayos, espera variable de 700–1800 ms y ventana de respuesta de 1000 ms. Las omisiones tienen RT nulo; no se sustituyen por 1000 ms para calcular la mediana. Anticipaciones y omisiones se cuentan por separado. Se informa el número de respuestas válidas y de respuestas válidas con RT ≥500 ms. Es una tarea breve inspirada en vigilancia psicomotora, no un PVT clínicamente validado.
 
-Memoria: 36 estímulos, exposición de 750 ms e intervalo de 180 ms. Los primeros dos estímulos no se puntúan porque no existe aún comparación 2-back. Secuencias reproducibles por código y fase; una repetición dentro de la fase reutiliza la secuencia, por lo que debe considerarse el efecto de práctica. No hay validación de equivalencia entre formas.
+Memoria: 8 ejercicios de práctica con retroalimentación, seguidos por 48 estímulos formales sin retroalimentación. Cada símbolo formal se presenta durante 1200 ms, seguido por un intervalo de 300 ms. Los primeros dos estímulos formales no se puntúan porque no existe aún comparación 2-back. La práctica no se guarda como resultado ni se mezcla con los ensayos analíticos. Las secuencias formales son reproducibles por código y fase; una repetición dentro de la fase reutiliza la secuencia, por lo que debe considerarse el efecto de práctica. El resumen conserva exactitud general, aciertos, omisiones, falsas alarmas, rechazos correctos y exactitud balanceada. Esta última evita que la mayoría de ensayos sin coincidencia infle la puntuación. No hay validación de equivalencia entre formas.
 
 El desempeño depende del dispositivo, navegador y contexto. Se cuenta la pérdida de visibilidad durante tareas; esto no constituye vigilancia de atención ni detección completa de interrupciones. Se debe pilotear la duración y adecuación de los ensayos. La espera de atención es aleatoria y no reproducible entre personas; las respuestas y tiempos observados quedan registrados.
 
@@ -61,6 +61,6 @@ Antes de analizar: revisar datos faltantes, omisiones, anticipaciones, intentos 
 
 ## Prueba y uso
 
-El modo docente ofrece una demostración con registro ficticio, 3 ensayos de atención, 6 estímulos de memoria y un botón para simular el paso de 25 minutos. La demo vive en memoria, no acepta consentimiento real y no entra a la base ni a exportaciones del conjunto de investigación.
+El modo docente ofrece una demostración con registro ficticio, 3 ensayos de atención, la práctica completa de memoria, 8 estímulos formales de memoria y un botón para simular el paso de 25 minutos. La demo vive en memoria, no acepta consentimiento real y no entra a la base ni a exportaciones del conjunto de investigación.
 
 Para uso local abrir mediante HTTP. Para sesiones reales, conservar el mismo navegador y dispositivo; la app no sincroniza datos entre computadoras. La alarma debe configurarse fuera de la página. Cerrar no borra datos; borrar datos del navegador puede perderlos. El equipo debe exportar y custodiar los archivos según el protocolo que apruebe.
