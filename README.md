@@ -13,8 +13,8 @@ El botón de la página informativa abre ahora un consentimiento dentro del proy
 ## Flujo de una sola siesta
 
 1. Leer el consentimiento; aceptar explícitamente sus tres declaraciones o rechazar.
-2. Registrar edad, nivel universitario y criterios de participación. Se genera un código aleatorio, sin nombre, matrícula ni correo.
-3. Contestar preguntas previas y realizar tareas abreviadas de atención y memoria.
+2. Registrar los datos demográficos y criterios de participación al inicio de la prueba. Se genera un código aleatorio, sin nombre, matrícula ni correo.
+3. Contestar preguntas previas y realizar tareas abreviadas de atención y memoria. Cada tarea presenta sus instrucciones en una página independiente; durante la medición sólo permanecen visibles el estímulo y los controles necesarios.
 4. Preparar una alarma propia e iniciar un intervalo de 25 minutos. El contador no emite sonido; la página conserva la hora de inicio aunque se cierre.
 5. Registrar sueño real, minutos e interrupciones; responder preguntas y repetir las tareas.
 6. Autoevaluar el desempeño posterior y cerrar la sesión.

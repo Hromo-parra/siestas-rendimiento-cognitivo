@@ -11,10 +11,36 @@ function wait(ms, signal) {
   });
 }
 
+// Cada tarea presenta sus instrucciones en una pantalla independiente. Así, el
+// texto explicativo desaparece antes de que comience la medición cognitiva.
+function showInstructions(container, { signal, eyebrow, title, content }) {
+  check(signal);
+  container.innerHTML = `<section class="task-instructions"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1>${content}<div class="form-actions centered"><button type="button" class="button primary task-start">Estoy listo/a: comenzar</button></div></section>`;
+  const button = container.querySelector('.task-start');
+  button.focus();
+  return new Promise((resolve, reject) => {
+    const start = () => { cleanup(); resolve(); };
+    const abort = () => { cleanup(); reject(new DOMException('Actividad interrumpida', 'AbortError')); };
+    function cleanup() {
+      button.removeEventListener('click', start);
+      signal.removeEventListener('abort', abort);
+    }
+    button.addEventListener('click', start, { once: true });
+    signal.addEventListener('abort', abort, { once: true });
+  });
+}
+
 export async function attention(container, { signal, demo, onTrial }) {
   const count = demo ? 3 : 20;
   const trials = [];
-  container.innerHTML = `<h1>Atención sostenida</h1><p>Pulsa el recuadro o la barra espaciadora cuando aparezca el círculo. Espera mientras veas el signo +.</p><button type="button" class="stimulus pvt" aria-label="Responder al círculo">+</button><p class="task-progress" aria-live="polite"></p>`;
+  await showInstructions(container, {
+    signal,
+    eyebrow: 'Instrucciones · Atención sostenida',
+    title: 'Responde únicamente cuando aparezca el círculo',
+    content: '<p>Mientras veas el signo +, espera sin responder. Cuando aparezca el círculo, pulsa la barra espaciadora o toca el recuadro lo más rápido posible.</p><p>No anticipes la respuesta. Después de comenzar, estas instrucciones desaparecerán.</p>'
+  });
+  check(signal);
+  container.innerHTML = `<button type="button" class="stimulus pvt" aria-label="Responder al círculo">+</button><p class="task-progress" aria-live="polite"></p>`;
   const target = container.querySelector('.stimulus');
   target.focus();
   for (let index = 0; index < count; index++) {
@@ -53,7 +79,14 @@ export async function attention(container, { signal, demo, onTrial }) {
 export async function memory(container, { signal, demo, onTrial, seed }) {
   const trials = [];
   const plan = buildNBackSequence(seed, demo ? 6 : 36);
-  container.innerHTML = '<h1>Memoria de trabajo</h1><p>Pulsa “Coincide” o la barra espaciadora si el símbolo es igual al de dos posiciones atrás. En las dos primeras posiciones, observa.</p><div class="stimulus nback" aria-label="Símbolo actual">+</div><button type="button" class="button primary nback-button">Coincide</button><p class="task-progress"></p>';
+  await showInstructions(container, {
+    signal,
+    eyebrow: 'Instrucciones · Memoria de trabajo',
+    title: 'Compara cada símbolo con el de dos posiciones atrás',
+    content: '<p>Pulsa “Coincide” o la barra espaciadora solamente cuando el símbolo actual sea igual al que apareció dos posiciones antes.</p><p>En las dos primeras posiciones sólo observa. Después de comenzar, estas instrucciones desaparecerán.</p>'
+  });
+  check(signal);
+  container.innerHTML = '<div class="stimulus nback" aria-label="Símbolo actual">+</div><button type="button" class="button primary nback-button">Coincide</button><p class="task-progress" aria-live="polite"></p>';
   const stimulus = container.querySelector('.stimulus');
   const button = container.querySelector('.nback-button');
   button.focus();

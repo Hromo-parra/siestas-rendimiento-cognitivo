@@ -49,7 +49,7 @@ function data(form) {
 }
 
 function registration() {
-  card('Registro y requisitos', `<p>Al guardar se generará un código aleatorio. No escribas datos que permitan identificarte.</p><form id="registration-form"><div class="form-grid">
+  card('Datos demográficos y requisitos', `<p>Este es el primer paso de la prueba después del consentimiento. Al guardar se generará un código aleatorio. No escribas datos que permitan identificarte.</p><form id="registration-form"><div class="form-grid">
     ${number('age','Edad en años',18)}
     ${select('education','Nivel de estudios',[['grado','Grado / licenciatura'],['posgrado','Posgrado']])}
     ${select('available','¿Tienes disponibilidad para la siesta en casa en el horario acordado?',[['yes','Sí'],['no','No']])}
@@ -78,7 +78,7 @@ function questionnaire(phase) {
 }
 
 function batteryIntro(phase) {
-  card('Tareas de atención y memoria', `<p>Completarás una tarea de atención de 20 ensayos y una tarea de memoria 2-back de 36 estímulos. En 2-back, responde únicamente si el símbolo coincide con el presentado dos posiciones antes.</p><p>Usa el mismo dispositivo en ambas evaluaciones. Puedes retirarte en cualquier momento. Si interrumpes una tarea, al retomar comenzarás un intento nuevo y el intento anterior quedará identificado como incompleto.</p>${demo ? '<p>En la demostración las tareas tienen menos ensayos.</p>' : ''}${action('battery','Comenzar tareas',true)}`, `Evaluación ${phase === 'pre' ? 'previa' : 'posterior'}`);
+  card('Tareas de atención y memoria', `<p>Completarás una tarea de atención de 20 ensayos y una tarea de memoria 2-back de 36 estímulos.</p><p>Cada tarea tendrá su propia página de instrucciones. Cuando comience la medición, el texto explicativo desaparecerá y sólo permanecerán el estímulo y los controles necesarios.</p><p>Usa el mismo dispositivo en ambas evaluaciones. Puedes retirarte en cualquier momento. Si interrumpes una tarea, al retomar comenzarás un intento nuevo y el intento anterior quedará identificado como incompleto.</p>${demo ? '<p>En la demostración las tareas tienen menos ensayos.</p>' : ''}${action('battery','Continuar a las instrucciones',true)}`, `Evaluación ${phase === 'pre' ? 'previa' : 'posterior'}`);
 }
 
 async function runBattery() {
