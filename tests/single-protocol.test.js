@@ -37,7 +37,9 @@ test('el intervalo persiste por fecha absoluta y dura 25 minutos', () => {
 });
 
 test('la exportación preserva cambios nulos sin convertir faltantes en ceros', () => {
-  const base={id:'TEST',stage:'complete',summaries:{pre:{pvt:{median_rt_ms:null},nback:{accuracy:.5}},post:{pvt:{median_rt_ms:300},nback:{accuracy:.75}}}};
+  const base={id:'TEST',stage:'complete',sex:'woman',career:'Psicología',currently_working:'yes',work_hours_week:20,work_schedule:'day',usual_sleep_hours:7,nap_frequency:'sometimes',sleep_hours_last_night:6.5,wake_time:'07:00',summaries:{pre:{pvt:{median_rt_ms:null},nback:{accuracy:.5}},post:{pvt:{median_rt_ms:300},nback:{accuracy:.75}}}};
   const row=summaryRow(base);
   assert.equal(row.pvt_change_ms,null); assert.equal(row.nback_change,.25);
+  assert.equal(row.career,'Psicología'); assert.equal(row.work_hours_week,20);
+  assert.equal(row.sleep_hours_last_night,6.5); assert.equal(row.nap_frequency,'sometimes');
 });

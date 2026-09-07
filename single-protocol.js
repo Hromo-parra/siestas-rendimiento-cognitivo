@@ -1,5 +1,5 @@
 // Configuración y cálculos exclusivos del estudio de una sola siesta.
-export const CONSENT_VERSION = '2026-09-02-piloto-1';
+export const CONSENT_VERSION = '2026-09-07-piloto-2';
 export const DATABASE_NAME = 'equipo8-siesta-unica-v1';
 export const NAP_MS = 25 * 60 * 1000;
 
@@ -57,7 +57,11 @@ export function summaryRow(session) {
   return {
     participant_id: session.id, protocol: 'single-nap-v1', status: session.stage,
     consent_version: session.consent_version, consented_at: session.consented_at,
-    age: session.age, education: session.education,
+    age: session.age, sex: session.sex, education: session.education, career: session.career,
+    currently_working: session.currently_working, work_hours_week: session.work_hours_week,
+    work_schedule: session.work_schedule, usual_sleep_hours: session.usual_sleep_hours,
+    nap_frequency: session.nap_frequency, sleep_hours_last_night: session.sleep_hours_last_night,
+    wake_time: session.wake_time,
     ...Object.fromEntries(Object.entries(session.pre || {}).map(([k,v]) => [`pre_${k}`,v])),
     ...Object.fromEntries(Object.entries(session.post || {}).map(([k,v]) => [`post_${k}`,v])),
     pvt_median_pre_ms: pre.pvt?.median_rt_ms, pvt_median_post_ms: post.pvt?.median_rt_ms,

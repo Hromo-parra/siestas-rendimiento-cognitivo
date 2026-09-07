@@ -38,8 +38,8 @@ const action = (name, label, primary = false) => `<button type="button" class="b
 function select(name, label, options, required = true) {
   return `<label class="field"><span>${label}</span><select name="${name}" ${required ? 'required' : ''}><option value="">${required ? 'Selecciona una opción' : 'Prefiero no responder'}</option>${options.map(([value,text]) => `<option value="${value}">${text}</option>`).join('')}</select></label>`;
 }
-function number(name, label, min = 0, required = true, step = 1) {
-  return `<label class="field"><span>${label}</span><input type="number" name="${name}" min="${min}" step="${step}" ${required ? 'required' : ''}></label>`;
+function number(name, label, min = 0, required = true, step = 1, max = null) {
+  return `<label class="field"><span>${label}</span><input type="number" name="${name}" min="${min}" ${max === null ? '' : `max="${max}"`} step="${step}" ${required ? 'required' : ''}></label>`;
 }
 function rating(name, label, left = 'Nada', right = 'Mucho', max = 10) {
   return select(name, `${label} (0 = ${left}; ${max} = ${right})`, Array.from({length:max+1}, (_,i)=>[i,i]), false);
@@ -49,13 +49,26 @@ function data(form) {
 }
 
 function registration() {
-  card('Datos demográficos y requisitos', `<p>Este es el primer paso de la prueba después del consentimiento. Al guardar se generará un código aleatorio. No escribas datos que permitan identificarte.</p><form id="registration-form"><div class="form-grid">
+  card('Datos sociodemográficos y hábitos de sueño', `<p>Este es el primer paso de la prueba después del consentimiento. Al guardar se generará un código aleatorio. No escribas tu nombre, matrícula, correo ni el nombre de tu institución.</p><form id="registration-form"><h2>Datos sociodemográficos</h2><div class="form-grid">
     ${number('age','Edad en años',18)}
+    ${select('sex','Sexo',[['man','Hombre'],['woman','Mujer'],['other','Otro']],false)}
     ${select('education','Nivel de estudios',[['grado','Grado / licenciatura'],['posgrado','Posgrado']])}
+    <label class="field"><span>¿Qué carrera estudias?</span><input type="text" name="career" maxlength="100" autocomplete="off" placeholder="Respuesta opcional"></label>
+    ${select('currently_working','¿Actualmente trabajas?',[['no','No'],['yes','Sí']])}
+    <div class="conditional-fields" data-work-details hidden>
+      ${number('work_hours_week','¿Cuántas horas trabajas a la semana?',0,false,.5,168)}
+      ${select('work_schedule','Tipo de horario laboral',[['day','Principalmente diurno'],['night','Principalmente nocturno'],['rotating','Turnos rotatorios'],['variable','Horario variable']],false)}
+    </div>
+    </div><h2>Hábitos y sueño reciente</h2><div class="form-grid">
+    ${number('usual_sleep_hours','¿Cuántas horas sueles dormir por noche?',0,false,.25,24)}
+    ${select('nap_frequency','¿Sueles tomar siesta habitualmente?',[['never','Nunca'],['rarely','Rara vez'],['sometimes','A veces'],['frequently','Frecuentemente'],['always','Siempre']],false)}
+    ${number('sleep_hours_last_night','¿Cuántas horas dormiste anoche?',0,false,.25,24)}
+    <label class="field"><span>¿A qué hora despertaste hoy?</span><input type="time" name="wake_time"></label>
+    </div><h2>Requisitos de participación</h2><div class="form-grid">
     ${select('available','¿Tienes disponibilidad para la siesta en casa en el horario acordado?',[['yes','Sí'],['no','No']])}
     ${select('sleep_disorder','¿Tienes diagnóstico de un trastorno del sueño?',[['no','No'],['yes','Sí'],['unsure','No tengo certeza']])}
     ${select('substances','¿Usas habitualmente sustancias que afecten el sueño?',[['no','No'],['yes','Sí'],['unsure','Necesito aclararlo con el equipo']])}
-    </div><p class="muted">La cafeína de la hora previa se registra en el siguiente paso. Si tienes dudas sobre cómo se aplica este criterio a tu consumo habitual, selecciona “Necesito aclararlo con el equipo”.</p><div class="form-actions">${action('decline','Cancelar')}<button class="button primary" type="submit">Guardar y continuar</button></div></form>`, 'Paso 1 de 5 · Registro');
+    </div><p class="muted">El sexo, la carrera, los hábitos de sueño y los datos laborales pueden dejarse sin responder. La cafeína de la hora previa se registra en el siguiente paso.</p><div class="form-actions">${action('decline','Cancelar')}<button class="button primary" type="submit">Guardar y continuar</button></div></form>`, 'Paso 1 de 5 · Datos iniciales');
 }
 
 function questionnaire(phase) {
@@ -65,8 +78,7 @@ function questionnaire(phase) {
     ${rating('expected_rest','¿Cuánto descanso esperas sentir después de la siesta?')}
     ${rating('expected_performance','¿Cómo esperas desempeñarte después de la siesta?','Mucho peor','Mucho mejor',4)}
     ${rating('self_performance','¿Cómo valoras tu capacidad actual para las tareas?','Muy baja','Muy alta')}
-    ${select('caffeine_last_hour','¿Consumiste cafeína durante la última hora?',[['yes','Sí'],['no','No']],false)}
-    ${number('sleep_hours','Horas de sueño de la noche anterior',0,false,.25)}`;
+    ${select('caffeine_last_hour','¿Consumiste cafeína durante la última hora?',[['yes','Sí'],['no','No']],false)}`;
   else fields = `${select('slept','¿Dormiste durante el intervalo?',[['yes','Sí'],['no','No'],['unsure','No tengo certeza']])}
     ${number('interval_minutes','Duración real del intervalo (minutos)')}${number('sleep_minutes','Minutos de sueño estimados (0 si no dormiste)')}
     ${number('interruptions','Número de interrupciones')}${rating('guilt','¿Cuánta culpa sientes por haber tomado la siesta?')}
@@ -148,7 +160,19 @@ async function teacher() {
 }
 
 function newSession(values, timestamp) {
-  return { id:`S-${crypto.randomUUID().replaceAll('-','').slice(0,12).toUpperCase()}`, protocol:'single-nap-v1', stage:'pre', age:Number(values.age), education:values.education, consent_version:CONSENT_VERSION, consented_at:timestamp, created_at:now(), summaries:{}, attempts:[], interrupted_attempts:0, visibility_changes:0 };
+  const numeric = value => value === null ? null : Number(value);
+  return {
+    id:`S-${crypto.randomUUID().replaceAll('-','').slice(0,12).toUpperCase()}`,
+    protocol:'single-nap-v1', stage:'pre', age:Number(values.age), sex:values.sex,
+    education:values.education, career:values.career,
+    currently_working:values.currently_working,
+    work_hours_week:values.currently_working === 'yes' ? numeric(values.work_hours_week) : null,
+    work_schedule:values.currently_working === 'yes' ? values.work_schedule : null,
+    usual_sleep_hours:numeric(values.usual_sleep_hours), nap_frequency:values.nap_frequency,
+    sleep_hours_last_night:numeric(values.sleep_hours_last_night), wake_time:values.wake_time,
+    consent_version:CONSENT_VERSION, consented_at:timestamp, created_at:now(),
+    summaries:{}, attempts:[], interrupted_attempts:0, visibility_changes:0
+  };
 }
 
 async function handleSubmit(form) {
@@ -220,6 +244,18 @@ document.addEventListener('click', async event => {
   if (!target || target.disabled) return;
   try { await handleAction(target.dataset.action,target); }
   catch (failure) { busy=false; navigation(); console.error(failure); error('No se pudo completar la acción. Revisa el almacenamiento de este navegador e intenta de nuevo.'); }
+});
+document.addEventListener('change', event => {
+  if (event.target.name !== 'currently_working') return;
+  const details = event.target.form?.querySelector('[data-work-details]');
+  if (!details) return;
+  const working = event.target.value === 'yes';
+  details.hidden = !working;
+  for (const input of details.querySelectorAll('input, select')) {
+    input.disabled = !working;
+    if (input.name === 'work_hours_week') input.required = working;
+    if (!working) input.value = '';
+  }
 });
 document.addEventListener('visibilitychange', () => {
   if (busy && document.hidden && session) session.visibility_changes++;

@@ -8,7 +8,7 @@ No se modificaron las tareas ni los registros del piloto cruzado anterior. El en
 
 ## Consentimiento
 
-Texto versionado `2026-09-02-piloto-1`, redactado con propósito, procedimiento, tiempo, criterios, posibles molestias, privacidad, voluntariedad, retiro y aspectos pendientes. Las tres casillas inician sin marcar y son obligatorias. Rechazar no crea un registro. Al aceptar se pasa al registro; la aceptación y su versión solo se guardan si la persona cumple criterios y envía ese formulario.
+Texto versionado `2026-09-07-piloto-2`, redactado con propósito, procedimiento, tiempo, criterios, posibles molestias, privacidad, voluntariedad, retiro y aspectos pendientes. Las tres casillas inician sin marcar y son obligatorias. Rechazar no crea un registro. Al aceptar se pasa al registro; la aceptación y su versión solo se guardan si la persona cumple criterios y envía ese formulario.
 
 Pendiente antes de una recolección formal: revisión del texto, contacto, aprobación institucional aplicable, custodia y tiempo de conservación, reglas para datos de participantes retirados, interpretación del criterio sobre sustancias/cafeína, instrumentos y tiempos definitivos.
 
@@ -18,7 +18,9 @@ El aviso sobre inercia del sueño se apoya en [Hilditch y colaboradores, 2016](h
 
 Las preguntas son ítems propios exploratorios, con opciones vacías permitidas y exportadas como faltantes. No se presentan como CATS, CESQT, SVS o Stanford Sleepiness Scale. El descanso se registra mediante una selección numérica discreta 0–10, **no una EVA continua**. Confirmar las versiones y condiciones de uso de los instrumentos definitivos antes de sustituirlos.
 
-Antes: actitud hacia siestas (0–4), expectativa de descanso (0–10), desempeño esperado relativo al actual (0–4, extremos peor/mejor), autoevaluación de capacidad (0–10), cafeína en la hora previa, horas de sueño previo, descanso y somnolencia (0–10).
+Al inicio: edad, sexo opcional, nivel de estudios, carrera, situación laboral, horas de trabajo, tipo de horario, sueño habitual, frecuencia de siestas, horas dormidas la noche anterior y hora de despertar. Las preguntas laborales detalladas aparecen sólo cuando la persona indica que trabaja.
+
+Antes de la tarea: actitud hacia siestas (0–4), expectativa de descanso (0–10), desempeño esperado relativo al actual (0–4, extremos peor/mejor), autoevaluación de capacidad (0–10), cafeína en la hora previa, descanso y somnolencia (0–10).
 
 Después: sueño sí/no/incierto, minutos reales del intervalo, minutos estimados de sueño, interrupciones, culpa, vitalidad, descanso y somnolencia (0–10). Después de las tareas se pregunta la autoevaluación de desempeño (0–10). La autoevaluación previa de capacidad y la posterior del desempeño observado no son ítems equivalentes; no se calcula un cambio validado entre ambos.
 
@@ -37,7 +39,9 @@ Base IndexedDB `equipo8-siesta-unica-v1`, almacén `sessions`. Cada registro con
 | `id` | Código aleatorio S- seguido de 12 caracteres hexadecimales |
 | `protocol` | `single-nap-v1` |
 | `consent_version`, `consented_at` | Versión leída y momento de aceptación |
-| `age`, `education` | Edad y grado/posgrado; sin nombre ni correo |
+| `age`, `sex`, `education`, `career` | Datos sociodemográficos; sexo y carrera permiten omisión |
+| `currently_working`, `work_hours_week`, `work_schedule` | Situación, carga y tipo de horario laboral |
+| `usual_sleep_hours`, `nap_frequency`, `sleep_hours_last_night`, `wake_time` | Hábitos y sueño reciente |
 | `stage` | `pre`, `pre_battery`, `nap_ready`, `nap`, `post`, `post_battery`, `final_rating`, `complete` o `withdrawn` |
 | `pre`, `post` | Respuestas; opcionales vacías como `null` |
 | `interval_started_at` | Fecha absoluta usada para reanudar el contador |
